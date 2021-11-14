@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:background="#FFF"
+    android:orientation="vertical">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="5dp"
+        app:cardBackgroundColor="@color/cardview_light_background"
+        android:layout_margin="5dp"
+
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/linear_click"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/letterimage"/>
+                <LinearLayout
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/expenseCatagoryTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/expenseNameTextView"
+                        android:text="sub heading"
+                        android:textSize="15dp"
+                        android:textColor="#000"
+                        android:textStyle="bold" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/expensePriceTextview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:textColor="#000"
+
+
+                        android:text="  4.4  "
+
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/datetextview"
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="date"
+                        android:textColor="#000"
+                        android:textSize="12dp" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/expenseNameTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="sub heading"
+                        android:textColor="#000"
+                        android:textSize="12dp" />
+</LinearLayout>
+                </LinearLayout>
+
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/closeTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="50dp"
+                    android:paddingHorizontal="9dp"
+                    android:paddingVertical="20dp"
+                    android:textColor="#000"
+                    android:text="X"
+                    android:textSize="15dp"
+
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+</LinearLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

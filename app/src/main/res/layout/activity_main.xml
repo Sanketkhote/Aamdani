@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/container"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context="com.sanket.cashio.MainActivity">
+
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textColor="@color/green"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:textSize="30dp"
+                    android:text="Cash"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorError"
+
+                    android:layout_marginTop="15dp"
+                    android:textSize="30dp"
+                    android:text="io"/>
+            </LinearLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/dailycard"
+                android:layout_width="match_parent"
+                app:cardElevation="20dp"
+                android:background="@color/cardview_light_background"
+                android:foreground="@color/cardview_light_background"
+                app:cardBackgroundColor="@color/cardview_light_background"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:clickable="true">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:orientation="vertical">
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7dp"
+                    android:textStyle="bold"
+                    android:textColor="#000"
+                    android:text= "Today's Spent"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/cardview_light_background"
+                    android:layout_weight="3"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginHorizontal="5dp"
+                        android:orientation="vertical">
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:textSize="10dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Current"
+
+                            android:textColor="#000"/>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/todayExpenseTextView"
+                            android:textStyle="bold"
+                            android:text="₹ 100"
+                            android:textColor="#000"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="10dp"
+                            android:gravity="center"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:text="Limit"
+
+                            android:textColor="#000"/>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/dailyTargetTextview"
+                            android:text="₹ 200"
+                            android:gravity="center"
+                            android:textStyle="bold"
+                            android:textColor="#000"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginHorizontal="5dp"
+                        android:layout_height="wrap_content">
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="10dp"
+                            android:gravity="end"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:text="Available"
+
+                            android:textColor="#000"/>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            android:id="@+id/availableTextview"
+                            android:text="₹ 50"
+                            android:textStyle="bold"
+                            android:textColor="#000"/>
+                    </LinearLayout>
+
+
+
+
+                </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="10dp"
+                            android:textColor="#000"
+                            android:layout_margin="5dp"
+                            android:text="Total Saved"/>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="10dp"
+                            android:id="@+id/totalSavedTextView"
+                            android:textStyle="bold"
+                            android:textColor="#000"
+                            android:layout_margin="5dp"
+                            android:text="Total Saved"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/monthlycard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardElevation="20dp"
+                android:foreground="@color/cardview_light_background"
+                android:layout_margin="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:background="@color/cardview_light_background"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/changemonthlytarget"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="16dp"
+                            android:text="Monthly Target"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="#000" />
+
+                        <TextView
+                            android:id="@+id/monthlytargettext"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="16dp"
+                            android:textStyle="bold"
+                            android:text=""
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="#000" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <com.github.mikephil.charting.charts.PieChart
+                            android:id="@+id/monthlyTrendchart"
+                            android:layout_width="match_parent"
+                            android:layout_height="250dp"
+                            android:layout_weight="1" />
+
+                        <LinearLayout
+                            android:id="@+id/monthlydatalinear"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:orientation="horizontal">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="40dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="0"
+                                android:background="@drawable/ic_navigate_next_black_24dp"
+                                android:gravity="center" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:cardBackgroundColor="@color/cardview_light_background"
+                android:background="@color/cardview_light_background"
+                app:cardElevation="20dp"
+                android:padding="20dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:background="#000"
+
+                    android:id="@+id/balanceRecycler">
+
+                </androidx.recyclerview.widget.RecyclerView>
+            </com.google.android.material.card.MaterialCardView>
+
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/dailyTrendChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@color/colorBackground"
+                    android:layout_margin="0dp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:id="@+id/catagryMaterialCardView"
+                app:cardBackgroundColor="@color/cardview_light_background"
+                android:background="@color/cardview_light_background"
+                app:cardElevation="20dp"
+                android:padding="20dp">
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/catagoryExpenseChart"
+                android:layout_width="match_parent"
+                android:layout_margin="8dp"
+                android:background="@color/colorBackground"
+                android:layout_height="350dp" />
+        </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/dailyRecyclerMaterialCardView"
+                android:layout_margin="8dp"
+                app:cardBackgroundColor="@color/cardview_light_background"
+                android:background="@color/cardview_light_background"
+                app:cardElevation="20dp"
+                android:padding="20dp">
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="#FFF"
+
+                android:id="@+id/dailyExpenseRecycler">
+            </androidx.recyclerview.widget.RecyclerView>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

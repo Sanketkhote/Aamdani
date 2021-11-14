@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dist="http://schemas.android.com/apk/distribution"
+    package="com.sanket.cashio">
+
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <dist:module dist:instant="true" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/cashio"
+        android:label="@string/app_name"
+        android:hardwareAccelerated="true"
+        android:roundIcon="@drawable/cashio"
+        android:supportsRtl="true"
+        android:largeHeap="true"
+        android:theme="@style/Theme.MyApp">
+
+
+        <activity
+            android:name="com.sanket.cashio.MonthlyActivity"
+            android:theme="@style/Theme.MaterialComponents.NoActionBar" />
+        <activity
+            android:name="com.sanket.cashio.DailyActivity"
+            android:theme="@style/Theme.MaterialComponents.NoActionBar" />
+        <activity android:name="com.sanket.cashio.MainActivity" />
+        <activity
+            android:name="com.sanket.cashio.LoginActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service android:name="com.sanket.cashio.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.sanket.cashio.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <receiver android:name=".smsReciever">
+            <intent-filter>
+
+                 <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name = ".NotificationBroadcastReceiver"
+            android:enabled = "true"
+            android:exported = "true" >
+        </receiver>
+    </application>
+
+</manifest>

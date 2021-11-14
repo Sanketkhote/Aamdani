@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "689973831862",
+    "firebase_url": "https://aamdani-ae52a.firebaseio.com",
+    "project_id": "aamdani-ae52a",
+    "storage_bucket": "aamdani-ae52a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:689973831862:android:94c8f12a370fed9c855e17",
+        "android_client_info": {
+          "package_name": "com.sanket.cashio"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "689973831862-t4rln50gqu97n5dd7m3cdf978l6c86u4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sanket.cashio",
+            "certificate_hash": "13563ad80737568a3115e917a2574d84ded80b8f"
+          }
+        },
+        {
+          "client_id": "689973831862-0igjcjd3gt5kjdmthlng2io807d2p48n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCA5XPDPMcIVI5bHHCG1jkXOju-V3IKiAE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "689973831862-0igjcjd3gt5kjdmthlng2io807d2p48n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

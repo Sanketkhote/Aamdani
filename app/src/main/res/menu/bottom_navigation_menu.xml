@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/reportpage"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_bar_chart_24"
+
+        android:title="Monthly Sheet">@color/black</item>
+    <item
+        android:id="@+id/ignoredpage"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_cancel_24"
+        android:title="Ignored Transactions"/>
+</menu>

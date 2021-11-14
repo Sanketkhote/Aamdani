@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:background="@color/cardview_light_background"
+    android:orientation="vertical">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="5dp"
+        android:background="#FFF"
+        android:id="@+id/balanceMaterialCardView"
+        android:clickable="true"
+        app:cardBackgroundColor="@color/cardview_light_background"
+        android:layout_margin="5dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="#FFF"
+            android:orientation="vertical">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="My Available Balance"
+
+                android:textColor="#000"
+                android:gravity="center"
+                />
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+
+                android:id="@+id/balancetextview"
+                android:text="$ 5000"
+                android:textSize="30dp"
+                android:textColor="@color/green"
+                android:textStyle="bold"
+                />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/balance_bank_textview"
+                android:text="ICICI Bank "
+                android:gravity="center"
+                android:textColor="#000"
+                />
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text=" : "
+                android:gravity="center"
+                android:textColor="#000"
+                />
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/balance_acno_textview"
+                android:text="XXX904"
+                android:gravity="center"
+                android:textColor="#000"
+                />
+        </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Last Updated : "
+                   android:layout_gravity="center"
+                    android:textColor="#000"
+                    />
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:id="@+id/balance_lastupdated_textview"
+                    android:text="21 sept 2021"
+                    android:textColor="#000"
+                    />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+
+
+
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

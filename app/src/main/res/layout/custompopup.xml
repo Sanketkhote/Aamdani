@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="350dp"
+    android:layout_marginHorizontal="25dp"
+    android:layout_height="wrap_content"
+    android:scaleType="fitXY"
+    android:background="@drawable/roundbackground"
+    android:padding="5dp"
+    android:layout_gravity="center"
+    android:baselineAligned="false">
+
+    <TextView
+        android:id="@+id/textclose"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="end"
+
+        android:background="@drawable/circlebackground"
+        android:gravity="center"
+        android:text="X"
+        android:textColor="#000"
+        android:textStyle="bold" />
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add A Spend"
+        android:layout_margin="5dp"
+        android:textColor="#000"
+        android:textSize="15dp"
+        android:paddingLeft="5dp"
+        android:textStyle="bold" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <com.google.android.material.textfield.TextInputLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Date"
+
+            android:layout_margin="5dp"
+            android:textColorHint="#000"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/datepicker"
+
+                android:focusable="false"
+                android:textColor="#000"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+       >
+
+
+
+
+        <com.google.android.material.textfield.TextInputLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Amount"
+            android:layout_margin="5dp"
+            android:textColorHint="#000"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/expenseamounttext"
+            android:inputType = "number"
+            android:textColor="#000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Catagory"
+
+            android:layout_margin="5dp"
+
+            android:textColorHint="#000"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/expensecatagorytext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:textColorHint="#000"
+                android:inputType="text"
+                android:imeOptions="actionDone"
+                android:textColor="#000"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+      <com.google.android.material.chip.ChipGroup
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_margin="5dp"
+          android:id="@+id/catagoryChips">
+
+
+
+
+    </com.google.android.material.chip.ChipGroup>
+        <com.google.android.material.textfield.TextInputLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="What was this spend for? (Optional)"
+            android:layout_margin="5dp"
+            android:textColorHint="#000"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/expnsenametext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                app:errorEnabled="true"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="50dp"
+    android:layout_marginBottom="5dp"
+    android:orientation="horizontal">
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/outlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Another"
+        android:layout_marginRight="80dp"
+        android:layout_marginLeft="10dp"
+        android:layout_gravity="left"
+        android:layout_weight="1"
+        android:outlineAmbientShadowColor="#000"
+        android:shadowColor="#000"
+        app:strokeColor="#000"
+        app:rippleColor="@color/colorPrimary"
+        android:textColor="#000"
+        style="?attr/materialButtonOutlinedStyle"
+        />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/addButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add"
+        android:outlineAmbientShadowColor="#000"
+        android:shadowColor="#000"
+        app:strokeColor="#000"
+        app:rippleColor="@color/colorPrimary"
+
+        android:layout_marginRight="10dp"
+        android:textColor="#000"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_weight="1"
+        android:layout_gravity="right"
+        />
+
+</LinearLayout>
+
+
+
+
+
+
+
+
+</LinearLayout>
