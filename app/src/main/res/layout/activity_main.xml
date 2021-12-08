@@ -231,95 +231,60 @@
                         <com.github.mikephil.charting.charts.PieChart
                             android:id="@+id/monthlyTrendchart"
                             android:layout_width="match_parent"
-                            android:layout_height="250dp"
+                            android:layout_height="220dp"
                             android:layout_weight="1" />
 
-                        <LinearLayout
-                            android:id="@+id/monthlydatalinear"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:background="?attr/selectableItemBackground"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:orientation="horizontal">
-
-                            <com.google.android.material.textview.MaterialTextView
-                                android:layout_width="40dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_weight="0"
-                                android:background="@drawable/ic_navigate_next_black_24dp"
-                                android:gravity="center" />
-                        </LinearLayout>
 
 
                     </LinearLayout>
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:id="@+id/monthlyanalyzeButton"
+                        android:layout_weight="0"
+                        android:elevation="50dp"
+                        app:elevation="50dp"
+                        android:layout_marginVertical="5dp"
+                        android:layout_marginHorizontal="30dp"
+                        android:text="Summary"
+                        app:backgroundTint="#F3F6F6"
+                        android:textStyle="bold"
+                        android:textAllCaps="false"
+                        android:textColor="#000"
+                        android:gravity="center" />
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                app:cardBackgroundColor="@color/cardview_light_background"
-                android:background="@color/cardview_light_background"
                 app:cardElevation="20dp"
-                android:padding="20dp">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:background="#000"
-
-                    android:id="@+id/balanceRecycler">
-
-                </androidx.recyclerview.widget.RecyclerView>
-            </com.google.android.material.card.MaterialCardView>
-
-
-                <com.github.mikephil.charting.charts.BarChart
-                    android:id="@+id/dailyTrendChart"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:background="@color/colorBackground"
-                    android:layout_margin="0dp" />
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:id="@+id/catagryMaterialCardView"
-                app:cardBackgroundColor="@color/cardview_light_background"
-                android:background="@color/cardview_light_background"
-                app:cardElevation="20dp"
-                android:padding="20dp">
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/catagoryExpenseChart"
-                android:layout_width="match_parent"
-                android:layout_margin="8dp"
-                android:background="@color/colorBackground"
-                android:layout_height="350dp" />
-        </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/dailyRecyclerMaterialCardView"
-                android:layout_margin="8dp"
-                app:cardBackgroundColor="@color/cardview_light_background"
-                android:background="@color/cardview_light_background"
-                app:cardElevation="20dp"
-                android:padding="20dp">
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp"
                 android:background="#FFF"
 
-                android:id="@+id/dailyExpenseRecycler">
-            </androidx.recyclerview.widget.RecyclerView>
+                app:cardBackgroundColor="#FFF"
+                android:foreground="@color/cardview_light_background"
+                android:layout_margin="8dp">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:background="#FFF"
+                    android:layout_margin="8dp"
+                    android:backgroundTint="#FFF"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/todaysExpenseRecycler"/>
+                <TextView
+                    android:id="@+id/empty_view_dailyexpense"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:layout_margin="8dp"
+                    android:textStyle="bold"
+                    android:textColor="#000"
+                    android:text="No Expense Today" />
             </com.google.android.material.card.MaterialCardView>
+
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

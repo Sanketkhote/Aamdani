@@ -20,6 +20,7 @@ import androidx.core.app.NotificationCompat;
 import com.google.android.gms.common.internal.GmsClientEventManager;
 
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
@@ -32,7 +33,8 @@ import static android.content.Context.NOTIFICATION_SERVICE;
 public class smsReciever extends BroadcastReceiver {
     public static final String NOTIFICATION_CHANNEL_ID = "10001" ;
     private final static String default_notification_channel_id = "default" ;
-
+    private int oldSmsPrice;
+    private Date oldSMSDate=new Date();
     public static class ExpenseData {
         public String expenseName,catagory;
         public int expense;
@@ -53,7 +55,7 @@ public class smsReciever extends BroadcastReceiver {
             String data="";
             data=getsms(context,intent);
             validatSms(context,data);
-           // createNotification(context,data);
+
 
         }
     }
@@ -135,7 +137,7 @@ public class smsReciever extends BroadcastReceiver {
         if (data==""){
            return;
         }
-        MainActivity.ExpenseData expense ;
+        MainActivity.ExpenseData expense;
         String smallData=data.toLowerCase();
 
           Log.e("yes",data);
@@ -175,12 +177,21 @@ public class smsReciever extends BroadcastReceiver {
         expense=new MainActivity.ExpenseData(expenseName,expenseName,expensePrice, dateFormat.format(result),0,data);
         SQLiteDatabase mydatabase = context.openOrCreateDatabase("expenseDB", MODE_PRIVATE,null);
         mydatabase.execSQL("CREATE TABLE IF NOT EXISTS Records(created DATETIME NOT NULL PRIMARY KEY,ExpenseName TEXT,Catagory TEXT,Expense INTEGER,Ignored INTEGER);");
-        if (expensePrice!=0){
+        boolean duplicate=isDuplicateSMS(expensePrice,result);
+        if ((expensePrice!=0) && !duplicate){
             MainActivity.saveToDB(expense,mydatabase);
+            MainActivity.oldSmsPrice=expensePrice;
+            MainActivity.oldSMSDate=result;
         }
-
         }
 
     }
 
+    public boolean isDuplicateSMS(int price, Date date) {
+        long duration= date.getTime()-MainActivity.oldSMSDate.getTime();
+        if ((MainActivity.oldSmsPrice == price) && (duration<=50000)) {
+            return true;
+        }
+        return false;
+    }
 }

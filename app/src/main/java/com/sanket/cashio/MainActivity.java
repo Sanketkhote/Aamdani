@@ -32,6 +32,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -57,6 +58,7 @@ import com.sanket.cashio.adapter.ListItem_balance;
 import com.sanket.cashio.adapter.ListItem_dailyExpense;
 import com.sanket.cashio.adapter.adapter_balance;
 import com.sanket.cashio.adapter.adapter_dailyExpense;
+import com.sanket.cashio.adapter.adapter_horizontalDailyExpense;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -75,9 +77,11 @@ import static com.github.mikephil.charting.utils.ColorTemplate.rgb;
 public class MainActivity extends AppCompatActivity {
     Dialog create, monthpopup;
     EditText catagoryEdit;
-    Button addButton;
+    Button addButton,  monthlyData;
     PieChart monthlyTrend;
-    LinearLayout changeMonthlyTarget, monthlyData;
+    LinearLayout changeMonthlyTarget;
+    public static int oldSmsPrice;
+    public static Date oldSMSDate=new Date();
     TextView monthTarget, DailyTarget, Available, TotalSavedTextView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     SharedPreferences sharedpreferences;
@@ -138,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
         create = new Dialog(this);
         monthpopup = new Dialog(this);
         CardView dailyCard = findViewById(R.id.dailycard);
-        monthlyData = findViewById(R.id.monthlydatalinear);
+        monthlyData = findViewById(R.id.monthlyanalyzeButton);
 
 
         // /You will setup the action bar with pull to refresh layout
@@ -218,36 +222,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void FreshData() {
-        CardView catagaoryCardView;
-
-        catagaoryCardView=findViewById(R.id.catagryMaterialCardView);
-        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)
-                catagaoryCardView.getLayoutParams();
-
         dailyExpense();
         monthlyTrendData();
-        //dailyExpenseTrend();
-        if (getTodaysExpense()!=0){
-            layoutParams.height=1000;
-            catagoryExpenseTrend();
-
-        }else{
-            layoutParams.height = 0;
-
-        }
-        getDaiyExpense();
-        showAvailableBalance();
+        showTodaysexpense();
     }
 
     public void updateMonthlyTarget() {
         changeMonthlyTarget = findViewById(R.id.changemonthlytarget);
-
-
         changeMonthlyTarget.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 monthlypopup();
-
             }
         });
     }
@@ -641,42 +626,42 @@ public class MainActivity extends AppCompatActivity {
         return data;
     }
 
-    public void catagoryExpenseTrend() {
-        PieChart catagoryExpenseChart = findViewById(R.id.catagoryExpenseChart);
-        ArrayList<PieEntry> catagoryExpenses = new ArrayList<>();
-
-        Catagories[] catagories;
-
-        catagories = getCatagoryWiseData();
-
-        for (int i = 0; i < catagories.length; i++) {
-            catagoryExpenses.add(new PieEntry(catagories[i].expense, catagories[i].catagory));
-        }
-        final int[] MATERIAL_COLORS = {
-                rgb("#03DAC5"), rgb("#BB86FC"), rgb("#eaad43"), rgb("#2ecc71"), rgb("#f1c40f"), rgb("#e74c3c"), rgb("#3498db")
-        };
-        PieDataSet pieDataSet = new PieDataSet(catagoryExpenses, "Catagorywise Expense");
-        pieDataSet.setColors(MATERIAL_COLORS);
-        pieDataSet.setValueTextColor(Color.BLACK);
-        pieDataSet.setValueLineColor(Color.BLACK);
-        pieDataSet.setSliceSpace(2f);
-
-        pieDataSet.setValueTextSize(16f);
-        PieData pieData = new PieData(pieDataSet);
-        catagoryExpenseChart.setNoDataText("No Spends in this Month \uD83D\uDE03");
-        if (catagoryExpenses.size() == 0) {
-            catagoryExpenseChart.setData(null);
-        } else {
-            catagoryExpenseChart.setData(pieData);
-        }
-
-        catagoryExpenseChart.getLegend().setTextColor(Color.BLACK);
-        catagoryExpenseChart.getDescription().setEnabled(false);
-        catagoryExpenseChart.setCenterText("Catagories");
-        catagoryExpenseChart.setEntryLabelColor(Color.BLACK);
-        catagoryExpenseChart.animate();
-
-    }
+//    public void catagoryExpenseTrend() {
+//        PieChart catagoryExpenseChart = findViewById(R.id.catagoryExpenseChart);
+//        ArrayList<PieEntry> catagoryExpenses = new ArrayList<>();
+//
+//        Catagories[] catagories;
+//
+//        catagories = getCatagoryWiseData();
+//
+//        for (int i = 0; i < catagories.length; i++) {
+//            catagoryExpenses.add(new PieEntry(catagories[i].expense, catagories[i].catagory));
+//        }
+//        final int[] MATERIAL_COLORS = {
+//                rgb("#03DAC5"), rgb("#BB86FC"), rgb("#eaad43"), rgb("#2ecc71"), rgb("#f1c40f"), rgb("#e74c3c"), rgb("#3498db")
+//        };
+//        PieDataSet pieDataSet = new PieDataSet(catagoryExpenses, "Catagorywise Expense");
+//        pieDataSet.setColors(MATERIAL_COLORS);
+//        pieDataSet.setValueTextColor(Color.BLACK);
+//        pieDataSet.setValueLineColor(Color.BLACK);
+//        pieDataSet.setSliceSpace(2f);
+//
+//        pieDataSet.setValueTextSize(16f);
+//        PieData pieData = new PieData(pieDataSet);
+//        catagoryExpenseChart.setNoDataText("No Spends in this Month \uD83D\uDE03");
+//        if (catagoryExpenses.size() == 0) {
+//            catagoryExpenseChart.setData(null);
+//        } else {
+//            catagoryExpenseChart.setData(pieData);
+//        }
+//
+//        catagoryExpenseChart.getLegend().setTextColor(Color.BLACK);
+//        catagoryExpenseChart.getDescription().setEnabled(false);
+//        catagoryExpenseChart.setCenterText("Catagories");
+//        catagoryExpenseChart.setEntryLabelColor(Color.BLACK);
+//        catagoryExpenseChart.animate();
+//
+//    }
 
     public String[] getDayString() {
         String[] days = new String[5];
@@ -741,118 +726,118 @@ public class MainActivity extends AppCompatActivity {
         return b;
     }
 
-    public void dailyExpenseTrend() {
-        String[] days = getDayString();
-        days = reverse(days, days.length);
-        Log.e("day1s", String.valueOf(days));
-        BarChart dailyTrendChart = findViewById(R.id.dailyTrendChart);
-        int[] weeklyData = getWeeklyTrendFromDB();
-
-        ArrayList<BarEntry> dailyExpenses = new ArrayList<>();
-        dailyExpenses.add(new BarEntry(0, weeklyData[4]));
-        dailyExpenses.add(new BarEntry(1, weeklyData[3]));
-        dailyExpenses.add(new BarEntry(2, weeklyData[2]));
-        dailyExpenses.add(new BarEntry(3, weeklyData[1]));
-        dailyExpenses.add(new BarEntry(4, weeklyData[0]));
-
-
-        BarDataSet barDataSet = new BarDataSet(dailyExpenses, "daily Expense");
-        barDataSet.setColor(Color.parseColor("#BB86FC"));
-        barDataSet.setValueTextColor(Color.WHITE);
-        barDataSet.setValueTextSize(16f);
-        barDataSet.setHighlightEnabled(true);
-        barDataSet.setDrawValues(true);
-        barDataSet.setValueTextSize(13);
-        barDataSet.setValueFormatter(new ValueFormatter() {
-            @Override
-            public String getFormattedValue(float value) {
-                if (value == 0) {
-                    return "";
-                }
-                int a = (int) value;
-                return String.valueOf(a);
-            }
-        });
-        barDataSet.setDrawIcons(true);
-        ;
-
-
-        BarData barData = new BarData(barDataSet);
-        XAxis xAxis = dailyTrendChart.getXAxis();
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(days));
-        xAxis.setDrawGridLines(false); // disable grid lines for the XAxis
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setGranularity(1f); // only intervals of 1 day
-        xAxis.setAxisLineColor(Color.WHITE);
-        xAxis.setTextColor(Color.WHITE);
-        xAxis.setGridColor(Color.WHITE);
-        xAxis.setLabelCount(7);
-
-
-        dailyTrendChart.setFitBars(true);
-
-        dailyTrendChart.setTouchEnabled(true);
-        dailyTrendChart.setDrawBarShadow(false);
-        dailyTrendChart.setDrawValueAboveBar(true);
-        dailyTrendChart.setNoDataText("No spends in last 5 days \uD83D\uDE03");
-
-        dailyTrendChart.getDescription().setEnabled(false);
-        // scaling can now only be done on x- and y-axis separately
-        dailyTrendChart.setPinchZoom(false);
-        int temp = 0;
-        for (int i = 0; i < 5; i++) {
-            if (weeklyData[i] > 0) {
-                temp = 1;
-                break;
-            }
-        }
-        if (temp == 1) {
-            dailyTrendChart.setData(barData);
-        } else {
-            dailyTrendChart.setData(null);
-
-        }
-
-        dailyTrendChart.setDrawBorders(false);
-
-        YAxis leftAxis = dailyTrendChart.getAxisLeft();
-        leftAxis.setDrawGridLines(false); // disable grid lines for the left YAxis
-        leftAxis.setLabelCount(8, false);
-        leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
-        leftAxis.setSpaceTop(15f);
-        leftAxis.setZeroLineColor(Color.WHITE);
-        leftAxis.setAxisLineColor(Color.WHITE);
-        leftAxis.setTextColor(Color.WHITE);
-        leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
-
-        YAxis rightAxis = dailyTrendChart.getAxisRight();
-        rightAxis.setDrawGridLines(false); // disable grid lines for the right YAxis
-        rightAxis.setDrawAxisLine(false);
-        rightAxis.setZeroLineColor(Color.WHITE);
-        rightAxis.setAxisLineColor(Color.WHITE);
-        rightAxis.setTextColor(Color.WHITE);
-
-        rightAxis.setEnabled(false);
-
-
-        Legend l = dailyTrendChart.getLegend();
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
-        l.setTextColor(Color.WHITE);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
-        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
-        l.setDrawInside(false);
-        l.setForm(Legend.LegendForm.CIRCLE);
-        l.setFormSize(9f);
-
-        l.setTextSize(11f);
-        l.setXEntrySpace(4f);
-        dailyTrendChart.getDescription().setText("Daily Expense");
-
-        dailyTrendChart.setBackgroundColor(Color.TRANSPARENT);
-
-        dailyTrendChart.setDrawGridBackground(false);
-        dailyTrendChart.animateY(2000);
-    }
+//    public void dailyExpenseTrend() {
+//        String[] days = getDayString();
+//        days = reverse(days, days.length);
+//        Log.e("day1s", String.valueOf(days));
+//        BarChart dailyTrendChart = findViewById(R.id.dailyTrendChart);
+//        int[] weeklyData = getWeeklyTrendFromDB();
+//
+//        ArrayList<BarEntry> dailyExpenses = new ArrayList<>();
+//        dailyExpenses.add(new BarEntry(0, weeklyData[4]));
+//        dailyExpenses.add(new BarEntry(1, weeklyData[3]));
+//        dailyExpenses.add(new BarEntry(2, weeklyData[2]));
+//        dailyExpenses.add(new BarEntry(3, weeklyData[1]));
+//        dailyExpenses.add(new BarEntry(4, weeklyData[0]));
+//
+//
+//        BarDataSet barDataSet = new BarDataSet(dailyExpenses, "daily Expense");
+//        barDataSet.setColor(Color.parseColor("#BB86FC"));
+//        barDataSet.setValueTextColor(Color.WHITE);
+//        barDataSet.setValueTextSize(16f);
+//        barDataSet.setHighlightEnabled(true);
+//        barDataSet.setDrawValues(true);
+//        barDataSet.setValueTextSize(13);
+//        barDataSet.setValueFormatter(new ValueFormatter() {
+//            @Override
+//            public String getFormattedValue(float value) {
+//                if (value == 0) {
+//                    return "";
+//                }
+//                int a = (int) value;
+//                return String.valueOf(a);
+//            }
+//        });
+//        barDataSet.setDrawIcons(true);
+//        ;
+//
+//
+//        BarData barData = new BarData(barDataSet);
+//        XAxis xAxis = dailyTrendChart.getXAxis();
+//        xAxis.setValueFormatter(new IndexAxisValueFormatter(days));
+//        xAxis.setDrawGridLines(false); // disable grid lines for the XAxis
+//        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+//        xAxis.setGranularity(1f); // only intervals of 1 day
+//        xAxis.setAxisLineColor(Color.WHITE);
+//        xAxis.setTextColor(Color.WHITE);
+//        xAxis.setGridColor(Color.WHITE);
+//        xAxis.setLabelCount(7);
+//
+//
+//        dailyTrendChart.setFitBars(true);
+//
+//        dailyTrendChart.setTouchEnabled(true);
+//        dailyTrendChart.setDrawBarShadow(false);
+//        dailyTrendChart.setDrawValueAboveBar(true);
+//        dailyTrendChart.setNoDataText("No spends in last 5 days \uD83D\uDE03");
+//
+//        dailyTrendChart.getDescription().setEnabled(false);
+//        // scaling can now only be done on x- and y-axis separately
+//        dailyTrendChart.setPinchZoom(false);
+//        int temp = 0;
+//        for (int i = 0; i < 5; i++) {
+//            if (weeklyData[i] > 0) {
+//                temp = 1;
+//                break;
+//            }
+//        }
+//        if (temp == 1) {
+//            dailyTrendChart.setData(barData);
+//        } else {
+//            dailyTrendChart.setData(null);
+//
+//        }
+//
+//        dailyTrendChart.setDrawBorders(false);
+//
+//        YAxis leftAxis = dailyTrendChart.getAxisLeft();
+//        leftAxis.setDrawGridLines(false); // disable grid lines for the left YAxis
+//        leftAxis.setLabelCount(8, false);
+//        leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
+//        leftAxis.setSpaceTop(15f);
+//        leftAxis.setZeroLineColor(Color.WHITE);
+//        leftAxis.setAxisLineColor(Color.WHITE);
+//        leftAxis.setTextColor(Color.WHITE);
+//        leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+//
+//        YAxis rightAxis = dailyTrendChart.getAxisRight();
+//        rightAxis.setDrawGridLines(false); // disable grid lines for the right YAxis
+//        rightAxis.setDrawAxisLine(false);
+//        rightAxis.setZeroLineColor(Color.WHITE);
+//        rightAxis.setAxisLineColor(Color.WHITE);
+//        rightAxis.setTextColor(Color.WHITE);
+//
+//        rightAxis.setEnabled(false);
+//
+//
+//        Legend l = dailyTrendChart.getLegend();
+//        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+//        l.setTextColor(Color.WHITE);
+//        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+//        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+//        l.setDrawInside(false);
+//        l.setForm(Legend.LegendForm.CIRCLE);
+//        l.setFormSize(9f);
+//
+//        l.setTextSize(11f);
+//        l.setXEntrySpace(4f);
+//        dailyTrendChart.getDescription().setText("Daily Expense");
+//
+//        dailyTrendChart.setBackgroundColor(Color.TRANSPARENT);
+//
+//        dailyTrendChart.setDrawGridBackground(false);
+//        dailyTrendChart.animateY(2000);
+//    }
 
     public void process() throws ParseException {
         SQLiteDatabase mydatabase = openOrCreateDatabase("expenseDB", MODE_PRIVATE, null);
@@ -890,7 +875,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void readSMS(SQLiteDatabase myDatabase) throws ParseException {
-        Cursor cursor = getContentResolver().query(Uri.parse("content://sms/inbox"), null, null, null, null);
+        Cursor cursor = getContentResolver().query(Uri.parse("content://sms/inbox"), null, null, null, "date DESC");
 
 
         if (cursor.moveToFirst() && cursor != null) { // must check the result to prevent exception
@@ -938,10 +923,14 @@ public class MainActivity extends AppCompatActivity {
                         expenseName = "Net Banking";
                     }
                     //  Log.e("time123",cursor.getString(4));
-
+                    long dateAsLong = Long.parseLong(cursor.getString(4));
+                    Date result = new Date(dateAsLong);
                     expense = new ExpenseData(expenseName, expenseName, expensePrice, getDateTime(cursor.getString(4)), 0, messageBody);
-                    if (expensePrice!=0){
+                    boolean duplicate=isDuplicateSMS(expensePrice,result);
+                    if ((expensePrice!=0) && !duplicate){
                         saveToDB(expense, myDatabase);
+                        oldSmsPrice=expensePrice;
+                        oldSMSDate=result;
                     }
 
                 }
@@ -952,7 +941,13 @@ public class MainActivity extends AppCompatActivity {
             Log.e("hi", "no messages");
         }
     }
-
+    public boolean isDuplicateSMS(int price, Date date) {
+        long duration=oldSMSDate.getTime() - date.getTime();
+        if ((oldSmsPrice == price) && (duration<=50000)) {
+            return true;
+        }
+        return false;
+    }
     public static int extractPrice(String messageBody) {
         String regex = "(\\$|rs|inr|inr |inr. |inr.|rs.|rs. )(\\s?[0-9,]+)";
         final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
@@ -1009,13 +1004,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
-
-    public boolean isValideAccountNumber(String accountNumber){
-
-        return false;
-
-    }
     public static String[] stringToToken(String messageBody) {
         StringTokenizer st = new StringTokenizer(messageBody, " ");
         String[] tokens = new String[st.countTokens()];
@@ -1054,32 +1042,32 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView.Adapter balanceAdapter;
     List<ListItem_balance> listitems;
 
-    public void showAvailableBalance() {
-        balanceRecycler = findViewById(R.id.balanceRecycler);
-        balanceRecycler.setBackgroundColor(Color.BLACK);
-        balanceRecycler.setHasFixedSize(true);
-        balanceRecycler.setLayoutManager(new LinearLayoutManager(this));
-        AvailableBalance[] availableBalances;
-
-        availableBalances = getAvailblebalance();
-
-        listitems = new ArrayList<>();
-
-
-        for (int i = 0; i < availableBalances.length; i++) {
-            Log.e(String.valueOf(i), availableBalances[i].lastUpdated + " " + availableBalances[i].bankName + " " + availableBalances[i].accountNo + " " + availableBalances[i].message);
-            ListItem_balance item = new ListItem_balance(
-                    availableBalances[i].lastUpdated,
-                    availableBalances[i].availableBalance,
-                    availableBalances[i].bankName,
-                    availableBalances[i].accountNo,
-                    availableBalances[i].message
-            );
-            listitems.add(item);
-        }
-        balanceAdapter = new adapter_balance(listitems);
-        balanceRecycler.setAdapter(balanceAdapter);
-    }
+//    public void showAvailableBalance() {
+//        balanceRecycler = findViewById(R.id.balanceRecycler);
+//        balanceRecycler.setBackgroundColor(Color.BLACK);
+//        balanceRecycler.setHasFixedSize(true);
+//        balanceRecycler.setLayoutManager(new LinearLayoutManager(this));
+//        AvailableBalance[] availableBalances;
+//
+//        availableBalances = getAvailblebalance();
+//
+//        listitems = new ArrayList<>();
+//
+//
+//        for (int i = 0; i < availableBalances.length; i++) {
+//            Log.e(String.valueOf(i), availableBalances[i].lastUpdated + " " + availableBalances[i].bankName + " " + availableBalances[i].accountNo + " " + availableBalances[i].message);
+//            ListItem_balance item = new ListItem_balance(
+//                    availableBalances[i].lastUpdated,
+//                    availableBalances[i].availableBalance,
+//                    availableBalances[i].bankName,
+//                    availableBalances[i].accountNo,
+//                    availableBalances[i].message
+//            );
+//            listitems.add(item);
+//        }
+//        balanceAdapter = new adapter_balance(listitems);
+//        balanceRecycler.setAdapter(balanceAdapter);
+//    }
 
     public AvailableBalance[] getAvailblebalance() {
         SQLiteDatabase mydatabase = openOrCreateDatabase("expenseDB", MODE_PRIVATE, null);
@@ -1134,17 +1122,28 @@ public class MainActivity extends AppCompatActivity {
         return dailyexpenses;
     }
 
-    public void getDaiyExpense() {
+    public void showTodaysexpense() {
         RecyclerView dailyExpenseRecycler;
+        TextView emptyView;
         List<ListItem_dailyExpense> DailyListItems;
         RecyclerView.Adapter dailyExpenseAdapter;
-        dailyExpenseRecycler = findViewById(R.id.dailyExpenseRecycler);
+        dailyExpenseRecycler = findViewById(R.id.todaysExpenseRecycler);
+        emptyView =findViewById(R.id.empty_view_dailyexpense);
         dailyExpenseRecycler.setBackgroundColor(Color.BLACK);
         dailyExpenseRecycler.setHasFixedSize(true);
         dailyExpenseRecycler.setLayoutManager(new LinearLayoutManager(this));
         MainActivity.ExpenseData[] dailyExpenses;
 
         dailyExpenses = getDailyExpenseData();
+
+        if (dailyExpenses.length==0) {
+            dailyExpenseRecycler.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
+        }
+        else {
+            dailyExpenseRecycler.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
+        }
 
         DailyListItems = new ArrayList<>();
 
@@ -1161,10 +1160,20 @@ public class MainActivity extends AppCompatActivity {
             );
             DailyListItems.add(item);
         }
-        dailyExpenseAdapter = new adapter_dailyExpense(DailyListItems, this);
+        LinearLayoutManager layoutManager=new LinearLayoutManager(MainActivity.this,LinearLayoutManager.HORIZONTAL,false);
+
+
+        dailyExpenseAdapter = new adapter_horizontalDailyExpense(DailyListItems, this);
+        dailyExpenseRecycler.setLayoutManager(layoutManager);
+        dailyExpenseRecycler.setItemAnimator(new DefaultItemAnimator());
         dailyExpenseRecycler.setAdapter(dailyExpenseAdapter);
 
     }
+
+
+    //-----------------------------------Todays Expense Recycler-------------------
+
+
 
 
 }

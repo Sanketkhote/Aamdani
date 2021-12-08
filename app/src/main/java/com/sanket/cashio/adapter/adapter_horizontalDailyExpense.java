@@ -38,27 +38,27 @@ import java.util.List;
 import static android.content.Context.MODE_PRIVATE;
 
 
-public class adapter_dailyExpense extends RecyclerView.Adapter<adapter_dailyExpense.ViewHolder> {
+public class adapter_horizontalDailyExpense extends RecyclerView.Adapter<adapter_horizontalDailyExpense.ViewHolder> {
     Dialog update;
     EditText catagoryEdit;
     private List<ListItem_dailyExpense> listItems;
     private Context context;
 
-    public adapter_dailyExpense(List<ListItem_dailyExpense> listItems, Context context) {
+    public adapter_horizontalDailyExpense(List<ListItem_dailyExpense> listItems, Context context) {
         this.listItems = listItems;
         this.context = context;
     }
 
     @NonNull
     @Override
-    public adapter_dailyExpense.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_dailyexpenses, parent, false);
+    public adapter_horizontalDailyExpense.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_horizontal_daily_expense, parent, false);
         return new ViewHolder(v);
     }
 
 
     @Override
-    public void onBindViewHolder(@NonNull final adapter_dailyExpense.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final adapter_horizontalDailyExpense.ViewHolder holder, final int position) {
 
         final ListItem_dailyExpense listItem = listItems.get(position);
         holder.expenseName.setText(listItem.getExpenseName());
@@ -85,32 +85,32 @@ public class adapter_dailyExpense extends RecyclerView.Adapter<adapter_dailyExpe
 
         holder.letter.setImageDrawable(drawable);
 
-        holder.close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(listItem.getIgnored()==1){
-                    SQLiteDatabase db = context.openOrCreateDatabase("expenseDB", MODE_PRIVATE, null);
-                    ContentValues cv = new ContentValues();
-                    cv.put("Ignored", 1); //These Fields should be your String values of actual column names
-                    db.delete("Records",  "Created=" + "\"" + listItem.getCreated() + "\"", null);
-
-                    listItems.remove(position);
-                    notifyItemRemoved(position);
-                    notifyItemRangeChanged(position, listItems.size());
-                }
-                else{
-                    SQLiteDatabase db = context.openOrCreateDatabase("expenseDB", MODE_PRIVATE, null);
-                    ContentValues cv = new ContentValues();
-                    cv.put("Ignored", 1); //These Fields should be your String values of actual column names
-                    db.update("Records", cv, "Created=" + "\"" + listItem.getCreated() + "\"", null);
-                    listItems.remove(position);
-                    notifyItemRemoved(position);
-                    notifyItemRangeChanged(position, listItems.size());
-                }
-
-
-            }
-        });
+//        holder.close.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(listItem.getIgnored()==1){
+//                    SQLiteDatabase db = context.openOrCreateDatabase("expenseDB", MODE_PRIVATE, null);
+//                    ContentValues cv = new ContentValues();
+//                    cv.put("Ignored", 1); //These Fields should be your String values of actual column names
+//                    db.delete("Records",  "Created=" + "\"" + listItem.getCreated() + "\"", null);
+//
+//                    listItems.remove(position);
+//                    notifyItemRemoved(position);
+//                    notifyItemRangeChanged(position, listItems.size());
+//                }
+//                else{
+//                    SQLiteDatabase db = context.openOrCreateDatabase("expenseDB", MODE_PRIVATE, null);
+//                    ContentValues cv = new ContentValues();
+//                    cv.put("Ignored", 1); //These Fields should be your String values of actual column names
+//                    db.update("Records", cv, "Created=" + "\"" + listItem.getCreated() + "\"", null);
+//                    listItems.remove(position);
+//                    notifyItemRemoved(position);
+//                    notifyItemRangeChanged(position, listItems.size());
+//                }
+//
+//
+//            }
+//        });
 
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,16 +139,16 @@ public class adapter_dailyExpense extends RecyclerView.Adapter<adapter_dailyExpe
 
         public ViewHolder(View itemView) {
             super(itemView);
-            letter=itemView.findViewById(R.id.letterimage);
+            letter=itemView.findViewById(R.id.letterimage_h);
 
-            expenseDate=itemView.findViewById(R.id.datetextview);
-            expenseName = (TextView) itemView.findViewById(R.id.expenseNameTextView);
-            expense = (TextView) itemView.findViewById(R.id.expensePriceTextview);
-            expenseCatagory = (TextView) itemView.findViewById(R.id.expenseCatagoryTextView);
+            expenseDate=itemView.findViewById(R.id.datetextview_h);
+            expenseName = (TextView) itemView.findViewById(R.id.expenseNameTextView_h);
+            expense = (TextView) itemView.findViewById(R.id.expensePriceTextview_h);
+            expenseCatagory = (TextView) itemView.findViewById(R.id.expenseCatagoryTextView_h);
 
-            close = itemView.findViewById(R.id.closeTextView);
 
-            linearLayout = itemView.findViewById(R.id.linear_click);
+
+            linearLayout = itemView.findViewById(R.id.linear_click_h);
         }
     }
 
@@ -185,6 +185,7 @@ public class adapter_dailyExpense extends RecyclerView.Adapter<adapter_dailyExpe
                 update.dismiss();
             }
         });
+
         update.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         update.show();
         setTag(getCatagories());
@@ -209,11 +210,6 @@ public class adapter_dailyExpense extends RecyclerView.Adapter<adapter_dailyExpe
                     return;
                 }
 
-
-
-
-
-
                 ContentValues contentValues = new ContentValues();
                 contentValues.put("ExpenseName", expenseNameEdit.getText().toString());
                 contentValues.put("Catagory", catagoryEdit.getText().toString());
@@ -231,7 +227,7 @@ public class adapter_dailyExpense extends RecyclerView.Adapter<adapter_dailyExpe
                 );
                 listItems.set(position, item);
 
-               notifyItemChanged(position);
+                notifyItemChanged(position);
                 update.dismiss();
             }
         });
@@ -263,7 +259,6 @@ public class adapter_dailyExpense extends RecyclerView.Adapter<adapter_dailyExpe
 
             }
         });
-
 
     }
     private void setTag(final List<String> tagList ) {

@@ -103,17 +103,37 @@
            android:id="@+id/expensedetail"
            style="?attr/materialButtonOutlinedStyle"
            />
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/deleteExpenseButton"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:layout_marginRight="30dp"
+                android:layout_marginLeft="10dp"
+                android:text="Delete Expense"
+                android:textColor="#000"
+                app:strokeColor="#000" />
         <com.google.android.material.button.MaterialButton
             android:id="@+id/updateButton"
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            app:strokeColor="#000"
             android:layout_weight="1"
+            android:layout_marginRight="20dp"
             android:text="Update"
-            android:textColor="#000" />
+            android:textColor="#000"
+            app:strokeColor="#000" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
