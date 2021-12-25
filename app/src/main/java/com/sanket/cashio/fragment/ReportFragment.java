@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -90,16 +91,39 @@ public class ReportFragment extends Fragment {
         PieDataSet pieDataSet = new PieDataSet(catagoryExpenses, "Catagorywise Expense");
         pieDataSet.setColors(MATERIAL_COLORS);
         pieDataSet.setValueTextColor(Color.BLACK);
+        pieDataSet.setValueLinePart1OffsetPercentage(90.f);
+        pieDataSet.setValueLinePart1Length(1f);
+        pieDataSet.setValueLinePart2Length(.2f);
+        pieDataSet.setValueTextColor(Color.BLACK);
+        pieDataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+        pieDataSet.setValueLinePart1OffsetPercentage(90.f);
+        pieDataSet.setValueLinePart1Length(.5f);
+        pieDataSet.setValueLinePart2Length(.2f);
+        pieDataSet.setValueTextColor(Color.BLACK);
+        pieDataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+        //catagoryExpenseChart.setDrawSliceText(false);
 
-        pieDataSet.setValueTextSize(16f);
+        pieDataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+
+        catagoryExpenseChart.setMinAngleForSlices(10);
+        pieDataSet.setValueTextSize(10f);
+        catagoryExpenseChart.setEntryLabelTextSize(10f);
         PieData pieData = new PieData(pieDataSet);
         catagoryExpenseChart.setData(pieData);
+
         catagoryExpenseChart.getDescription().setEnabled(false);
         catagoryExpenseChart.setCenterText("Catagories");
         catagoryExpenseChart.getLegend().setTextColor(Color.BLACK);
         catagoryExpenseChart.setEntryLabelColor(Color.BLACK);
         catagoryExpenseChart.setBackgroundColor(Color.parseColor("#FFFFFF"));
         catagoryExpenseChart.setTransparentCircleColor(Color.parseColor("#FFFFFF"));
+       // catagoryExpenseChart.setExtraBottomOffset(20f);
+        catagoryExpenseChart.setExtraLeftOffset(15f);
+       // catagoryExpenseChart.setExtraRightOffset(20f);
+        Legend legend = catagoryExpenseChart.getLegend();
+        legend.setOrientation(Legend.LegendOrientation.VERTICAL);
+        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
+        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.CENTER);
         catagoryExpenseChart.animate();
 
     }
@@ -118,7 +142,7 @@ public class ReportFragment extends Fragment {
             do {
                 // get the data into array, or class variable
 
-                dailyexpenses[i]=new MainActivity.ExpenseData(cursor.getString(1),cursor.getString(2),cursor.getInt(3),cursor.getString(0),cursor.getInt(4),cursor.getString(5));
+                dailyexpenses[i]=new MainActivity.ExpenseData(cursor.getString(1),cursor.getString(2),cursor.getInt(3),cursor.getString(0),cursor.getInt(4),cursor.getString(5),cursor.getInt(6),cursor.getInt(7),cursor.getInt(8));
                 i++;
 
 
@@ -147,7 +171,10 @@ public class ReportFragment extends Fragment {
                     dailyExpenses[i].expenseName,
                     dailyExpenses[i].catagory,
                     dailyExpenses[i].ignored,
-                    dailyExpenses[i].detail
+                    dailyExpenses[i].detail,
+                    dailyExpenses[i].investment,
+                    dailyExpenses[i].lend,
+                    dailyExpenses[i].loan
             );
             listitems.add(item);
         }

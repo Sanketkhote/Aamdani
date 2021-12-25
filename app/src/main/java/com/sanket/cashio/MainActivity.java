@@ -92,14 +92,20 @@ public class MainActivity extends AppCompatActivity {
         public String created;
         public int ignored;
         public String detail;
+        public int investment;
+        public int lend;
+        public int loan;
 
-        public ExpenseData(String expenseName, String catagory, int expense, String created, int ignored, String details) {
+        public ExpenseData(String expenseName, String catagory, int expense, String created, int ignored, String details,int investment,int lend,int loan) {
             this.expenseName = expenseName;
             this.catagory = catagory;
             this.expense = expense;
             this.created = created;
             this.ignored = ignored;
             this.detail = details;
+            this.investment = investment;
+            this.lend=loan;
+            this.loan=loan;
         }
     }
 
@@ -272,7 +278,8 @@ public class MainActivity extends AppCompatActivity {
 
         pieDataSet.setColors(colors);
         pieDataSet.setValueTextColor(Color.BLACK);
-        pieDataSet.setValueTextSize(16f);
+
+        pieDataSet.setValueTextSize(12f);
         PieData pieData = new PieData(pieDataSet);
         monthlyTrend.setData(pieData);
         monthlyTrend.setRotationEnabled(false);
@@ -841,7 +848,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void process() throws ParseException {
         SQLiteDatabase mydatabase = openOrCreateDatabase("expenseDB", MODE_PRIVATE, null);
-        mydatabase.execSQL("CREATE TABLE IF NOT EXISTS Records(created DATETIME NOT NULL PRIMARY KEY,ExpenseName TEXT,Catagory TEXT,Expense INTEGER,Ignored INTEGER,Detail TEXT);");
+        mydatabase.execSQL("CREATE TABLE IF NOT EXISTS Records(created DATETIME NOT NULL PRIMARY KEY,ExpenseName TEXT,Catagory TEXT,Expense INTEGER,Ignored INTEGER,Detail TEXT,Investment INTEGER);");
         readSMS(mydatabase);
         // mydatabase.close();
     }
@@ -925,7 +932,7 @@ public class MainActivity extends AppCompatActivity {
                     //  Log.e("time123",cursor.getString(4));
                     long dateAsLong = Long.parseLong(cursor.getString(4));
                     Date result = new Date(dateAsLong);
-                    expense = new ExpenseData(expenseName, expenseName, expensePrice, getDateTime(cursor.getString(4)), 0, messageBody);
+                    expense = new ExpenseData(expenseName, expenseName, expensePrice, getDateTime(cursor.getString(4)), 0, messageBody,0,0,0);
                     boolean duplicate=isDuplicateSMS(expensePrice,result);
                     if ((expensePrice!=0) && !duplicate){
                         saveToDB(expense, myDatabase);
@@ -1110,9 +1117,7 @@ public class MainActivity extends AppCompatActivity {
         int i = 0;
         if (cursor.moveToFirst()) {
             do {
-                // get the data into array, or class variable
-
-                dailyexpenses[i] = new MainActivity.ExpenseData(cursor.getString(1), cursor.getString(2), cursor.getInt(3), cursor.getString(0), cursor.getInt(4), cursor.getString(5));
+                dailyexpenses[i] = new MainActivity.ExpenseData(cursor.getString(1), cursor.getString(2), cursor.getInt(3), cursor.getString(0), cursor.getInt(4), cursor.getString(5),cursor.getInt(6),cursor.getInt(7),cursor.getInt(8));
                 i++;
 
 
@@ -1156,7 +1161,10 @@ public class MainActivity extends AppCompatActivity {
                     dailyExpenses[i].expenseName,
                     dailyExpenses[i].catagory,
                     dailyExpenses[i].ignored,
-                    dailyExpenses[i].detail
+                    dailyExpenses[i].detail,
+                    dailyExpenses[i].investment,
+                    dailyExpenses[i].lend,
+                    dailyExpenses[i].loan
             );
             DailyListItems.add(item);
         }

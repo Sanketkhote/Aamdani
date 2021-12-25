@@ -25,7 +25,8 @@
     <com.github.mikephil.charting.charts.PieChart
         android:layout_height="350dp"
     android:layout_width="match_parent"
-        android:layout_margin="10dp"
+        android:layout_margin="15dp"
+
         android:background="#FFF"
     android:id="@+id/monthlycatagorypiechart" />
         </com.google.android.material.card.MaterialCardView>

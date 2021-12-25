@@ -57,7 +57,7 @@ View v;
             do {
                 // get the data into array, or class variable
 
-                dailyexpenses[i]=new MainActivity.ExpenseData(cursor.getString(1),cursor.getString(2),cursor.getInt(3),cursor.getString(0),cursor.getInt(4),cursor.getString(5));
+                dailyexpenses[i]=new MainActivity.ExpenseData(cursor.getString(1),cursor.getString(2),cursor.getInt(3),cursor.getString(0),cursor.getInt(4),cursor.getString(5),cursor.getInt(6),cursor.getInt(7),cursor.getInt(8));
                 i++;
 
 
@@ -86,7 +86,10 @@ View v;
                     dailyExpenses[i].expenseName,
                     dailyExpenses[i].catagory,
                     dailyExpenses[i].ignored,
-                    dailyExpenses[i].detail
+                    dailyExpenses[i].detail,
+                    dailyExpenses[i].investment,
+                    dailyExpenses[i].lend,
+                    dailyExpenses[i].loan
             );
             listitems.add(item);
         }

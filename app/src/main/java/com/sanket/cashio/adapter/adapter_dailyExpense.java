@@ -117,7 +117,7 @@ public class adapter_dailyExpense extends RecyclerView.Adapter<adapter_dailyExpe
             public void onClick(View v) {
 
                 Log.e("clicked","clicked");
-                showUpdatePopup(listItem.getExpenseName(),listItem.getCatagory(),listItem.getCreated(),listItem.getExpense(),listItem.getIgnored(),position,listItem.getDetails());
+                showUpdatePopup(listItem,position);
 
 
 
@@ -152,7 +152,7 @@ public class adapter_dailyExpense extends RecyclerView.Adapter<adapter_dailyExpe
         }
     }
 
-    public void showUpdatePopup(String expenseName, String expenseCatagory, final String created, final int expenseAmount,final int ignored, final int position,final String Details) {
+    public void showUpdatePopup(ListItem_dailyExpense listitem,int position) {
         TextView textClose;
 
         final EditText expenseNameEdit;
@@ -175,10 +175,10 @@ public class adapter_dailyExpense extends RecyclerView.Adapter<adapter_dailyExpe
         deleteButton =update.findViewById(R.id.deleteExpenseButton);
         detailEdit=update.findViewById(R.id.expensedetail);
 
-        detailEdit.setText(Details);
+        detailEdit.setText(listitem.getDetails());
 
-        expenseNameEdit.setText(expenseName);
-        catagoryEdit.setText(expenseCatagory);
+        expenseNameEdit.setText(listitem.getExpenseName());
+        catagoryEdit.setText(listitem.getCatagory());
         textClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -219,15 +219,16 @@ public class adapter_dailyExpense extends RecyclerView.Adapter<adapter_dailyExpe
                 contentValues.put("Catagory", catagoryEdit.getText().toString());
                 insertCatagories(catagoryEdit.getText().toString());
 
-                mydatabase.update("Records", contentValues, "Created=" + "\"" + created + "\"", null);
+                mydatabase.update("Records", contentValues, "Created=" + "\"" + listitem.getCreated() + "\"", null);
 
                 ListItem_dailyExpense item= new ListItem_dailyExpense(
-                        created,
-                        expenseAmount,
+                        listitem.getCreated(),
+                        listitem.getExpense(),
                         expenseNameEdit.getText().toString(),
                         catagoryEdit.getText().toString(),
-                        ignored,
-                        Details
+                        listitem.getIgnored(),
+                        //TODO:verify this once
+                        listitem.getDetails(),listitem.getInvestment(),listitem.getLend(),listitem.getLoan()
                 );
                 listItems.set(position, item);
 
@@ -239,12 +240,11 @@ public class adapter_dailyExpense extends RecyclerView.Adapter<adapter_dailyExpe
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(ignored==1){
+                if(listitem.getIgnored()==1){
                     SQLiteDatabase db = context.openOrCreateDatabase("expenseDB", MODE_PRIVATE, null);
                     ContentValues cv = new ContentValues();
                     cv.put("Ignored", 1); //These Fields should be your String values of actual column names
-                    db.delete("Records",  "Created=" + "\"" + created + "\"", null);
-
+                    db.delete("Records",  "Created=" + "\"" + listitem.getCreated() + "\"", null);
                     listItems.remove(position);
                     notifyItemRemoved(position);
                     notifyItemRangeChanged(position, listItems.size());
@@ -253,7 +253,7 @@ public class adapter_dailyExpense extends RecyclerView.Adapter<adapter_dailyExpe
                     SQLiteDatabase db = context.openOrCreateDatabase("expenseDB", MODE_PRIVATE, null);
                     ContentValues cv = new ContentValues();
                     cv.put("Ignored", 1); //These Fields should be your String values of actual column names
-                    db.update("Records", cv, "Created=" + "\"" + created + "\"", null);
+                    db.update("Records", cv, "Created=" + "\"" + listitem.getCreated() + "\"", null);
                     listItems.remove(position);
                     notifyItemRemoved(position);
                     notifyItemRangeChanged(position, listItems.size());

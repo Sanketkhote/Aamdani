@@ -174,7 +174,7 @@ public class smsReciever extends BroadcastReceiver {
             expenseName="Net Banking";
         }
 
-        expense=new MainActivity.ExpenseData(expenseName,expenseName,expensePrice, dateFormat.format(result),0,data);
+        expense=new MainActivity.ExpenseData(expenseName,expenseName,expensePrice, dateFormat.format(result),0,data,0,0,0);
         SQLiteDatabase mydatabase = context.openOrCreateDatabase("expenseDB", MODE_PRIVATE,null);
         mydatabase.execSQL("CREATE TABLE IF NOT EXISTS Records(created DATETIME NOT NULL PRIMARY KEY,ExpenseName TEXT,Catagory TEXT,Expense INTEGER,Ignored INTEGER);");
         boolean duplicate=isDuplicateSMS(expensePrice,result);
