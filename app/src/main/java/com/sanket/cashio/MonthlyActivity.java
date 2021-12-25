@@ -28,7 +28,7 @@ import java.util.Date;
 public class MonthlyActivity extends AppCompatActivity {
 BottomNavigationView bottomNavigationView;
     private ActionBar actionBar;
-    private String dropDownItemArr[] = {"News", "Sports", "FinTech"};
+
     MaterialToolbar toolbar;
     Spinner spinner;
     String selectedMonth,selectedYear;

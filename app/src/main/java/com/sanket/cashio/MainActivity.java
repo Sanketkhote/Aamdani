@@ -54,6 +54,7 @@ import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.sanket.cashio.adapter.ListItem_balance;
 import com.sanket.cashio.adapter.ListItem_dailyExpense;
 import com.sanket.cashio.adapter.adapter_balance;
@@ -231,6 +232,7 @@ public class MainActivity extends AppCompatActivity {
         dailyExpense();
         monthlyTrendData();
         showTodaysexpense();
+        showInvetsmentOfCurrentMonth();
     }
 
     public void updateMonthlyTarget() {
@@ -354,6 +356,7 @@ public class MainActivity extends AppCompatActivity {
         final EditText dateAndTime;
         final EditText expenseNameEdit;
         final EditText expenseAmountEdit;
+        final SwitchMaterial investment;
 
 
         create.setContentView(R.layout.custompopup);
@@ -363,7 +366,7 @@ public class MainActivity extends AppCompatActivity {
         expenseNameEdit = create.findViewById(R.id.expnsenametext);
         expenseAmountEdit = create.findViewById(R.id.expenseamounttext);
         catagoryEdit = create.findViewById(R.id.expensecatagorytext);
-
+        investment=create.findViewById(R.id.investment_switch);
         expenseAmountEdit.requestFocus();
         InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
@@ -432,9 +435,14 @@ public class MainActivity extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 boolean errorFlag = false;
                 SQLiteDatabase mydatabase = openOrCreateDatabase("expenseDB", MODE_PRIVATE, null);
-                mydatabase.execSQL("CREATE TABLE IF NOT EXISTS Records(created DATETIME NOT NULL PRIMARY KEY,ExpenseName TEXT,Catagory TEXT,Expense INTEGER);");
+                mydatabase.execSQL("CREATE TABLE IF NOT EXISTS Records(created DATETIME NOT NULL PRIMARY KEY,ExpenseName TEXT,Catagory TEXT,Expense INTEGER,Ignored INTEGER,\n" +
+                        "Detail TEXT,\n" +
+                        "Investment INTEGER,\n" +
+                        "Lend INTEGER,\n" +
+                        "Loan INTEGER);");
 
 
                 if (catagoryEdit.getText().toString().matches("")) {
@@ -453,6 +461,12 @@ public class MainActivity extends AppCompatActivity {
                 contentValues.put("ExpenseName", expenseNameEdit.getText().toString());
                 contentValues.put("Catagory", catagoryEdit.getText().toString());
                 contentValues.put("Ignored", 0);
+                contentValues.put("Investment", 0);
+                contentValues.put("Lend",0);
+                contentValues.put("Loan",0);
+                if(investment.isChecked()){
+                    contentValues.put("Investment", 1);
+                }
                 insertCatagories(catagoryEdit.getText().toString());
                 contentValues.put("Expense", expenseAmountEdit.getText().toString());
                 mydatabase.insert("Records", null, contentValues);
@@ -572,7 +586,7 @@ public class MainActivity extends AppCompatActivity {
 
         SQLiteDatabase mydatabase = openOrCreateDatabase("expenseDB", MODE_PRIVATE, null);
 
-        String selectQuery = "SELECT SUM(Expense) FROM Records WHERE Date(Created)=Date('now','localtime') AND ignored=0";
+        String selectQuery = "SELECT SUM(Expense) FROM Records WHERE Date(Created)=Date('now','localtime') AND ignored=0 AND investment=0";
 
         Cursor cursor = mydatabase.rawQuery(selectQuery, null);
 
@@ -593,7 +607,7 @@ public class MainActivity extends AppCompatActivity {
 
         SQLiteDatabase mydatabase = openOrCreateDatabase("expenseDB", MODE_PRIVATE, null);
 
-        String selectQuery = "SELECT sum(Expense) FROM Records WHERE strftime('%m %Y',created) = strftime('%m %Y','now','localtime') AND ignored=0";
+        String selectQuery = "SELECT sum(Expense) FROM Records WHERE strftime('%m %Y',created) = strftime('%m %Y','now','localtime') AND ignored=0 AND investment=0";
 
         Cursor cursor = mydatabase.rawQuery(selectQuery, null);
 
@@ -614,7 +628,7 @@ public class MainActivity extends AppCompatActivity {
     public Catagories[] getCatagoryWiseData() {
 
         SQLiteDatabase mydatabase = openOrCreateDatabase("expenseDB", MODE_PRIVATE, null);
-        String selectQuery = "SELECT Catagory,sum(Expense) FROM Records WHERE strftime('%d %m %Y',created) = strftime('%d %m %Y','now','localtime') AND ignored=0 GROUP by Catagory ORDER by Catagory;";
+        String selectQuery = "SELECT Catagory,sum(Expense) FROM Records WHERE strftime('%d %m %Y',created) = strftime('%d %m %Y','now','localtime') AND ignored=0 AND investment=0 GROUP by Catagory ORDER by Catagory;";
 
         Cursor cursor = mydatabase.rawQuery(selectQuery, null);
         Catagories[] data = new Catagories[cursor.getCount()];
@@ -694,11 +708,11 @@ public class MainActivity extends AppCompatActivity {
         int[] expenses = new int[5];
         SQLiteDatabase mydatabase = openOrCreateDatabase("expenseDB", MODE_PRIVATE, null);
 
-        String[] selectQuerys = new String[]{"SELECT SUM(Expense) FROM Records WHERE Date(Created)=Date('now','localtime') AND ignored=0",
-                "SELECT SUM(Expense) FROM Records WHERE Date(Created)=Date('now','localtime','-1 day') AND ignored=0",
-                "SELECT SUM(Expense) FROM Records WHERE Date(Created)=Date('now','localtime','-2 day') AND ignored=0",
-                "SELECT SUM(Expense) FROM Records WHERE Date(Created)=Date('now','localtime','-3 day') AND ignored=0",
-                "SELECT SUM(Expense) FROM Records WHERE Date(Created)=Date('now','localtime','-4 day') AND ignored=0"};
+        String[] selectQuerys = new String[]{"SELECT SUM(Expense) FROM Records WHERE Date(Created)=Date('now','localtime') AND ignored=0 AND investment=0",
+                "SELECT SUM(Expense) FROM Records WHERE Date(Created)=Date('now','localtime','-1 day') AND ignored=0 AND investment=0",
+                "SELECT SUM(Expense) FROM Records WHERE Date(Created)=Date('now','localtime','-2 day') AND ignored=0 AND investment=0",
+                "SELECT SUM(Expense) FROM Records WHERE Date(Created)=Date('now','localtime','-3 day') AND ignored=0 AND investment=0",
+                "SELECT SUM(Expense) FROM Records WHERE Date(Created)=Date('now','localtime','-4 day') AND ignored=0 AND investment=0"};
 
         int j = 0;
         for (j = 0; j < 5; j++) {
@@ -848,7 +862,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void process() throws ParseException {
         SQLiteDatabase mydatabase = openOrCreateDatabase("expenseDB", MODE_PRIVATE, null);
-        mydatabase.execSQL("CREATE TABLE IF NOT EXISTS Records(created DATETIME NOT NULL PRIMARY KEY,ExpenseName TEXT,Catagory TEXT,Expense INTEGER,Ignored INTEGER,Detail TEXT,Investment INTEGER);");
+        mydatabase.execSQL("CREATE TABLE IF NOT EXISTS Records(created DATETIME NOT NULL PRIMARY KEY,ExpenseName TEXT,Catagory TEXT,Expense INTEGER,Ignored INTEGER,Detail TEXT,Investment INTEGER,Lend INTEGER,Loan INTEGER);");
         readSMS(mydatabase);
         // mydatabase.close();
     }
@@ -870,6 +884,9 @@ public class MainActivity extends AppCompatActivity {
         contentValues.put("Expense", ed.expense);
         contentValues.put("Ignored", ed.ignored);
         contentValues.put("Detail", ed.detail);
+        contentValues.put("Investment",ed.investment);
+        contentValues.put("Lend",ed.lend);
+        contentValues.put("Loan",ed.loan);
         try {
 
             myDatabase.insertOrThrow("Records", null, contentValues);
@@ -1110,7 +1127,7 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase mydatabase = openOrCreateDatabase("expenseDB", MODE_PRIVATE, null);
         final String TABLE_NAME = "Records";
         //String selectQuery = "SELECT  * FROM " + TABLE_NAME+" where Date(Created)=Date('now')";
-        String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE Date(Created)=Date('now','localtime') AND ignored=0 ORDER BY date(Created) DESC";
+        String selectQuery = "SELECT  Created,ExpenseName,Catagory,Expense,Ignored,Detail,Investment,Lend,Loan FROM " + TABLE_NAME + " WHERE Date(Created)=Date('now','localtime') AND ignored=0 AND investment=0 ORDER BY date(Created) DESC";
 
         Cursor cursor = mydatabase.rawQuery(selectQuery, null);
         MainActivity.ExpenseData[] dailyexpenses = new MainActivity.ExpenseData[cursor.getCount()];
@@ -1126,7 +1143,7 @@ public class MainActivity extends AppCompatActivity {
         cursor.close();
         return dailyexpenses;
     }
-
+    //-----------------------------------Todays Expense Recycler-------------------
     public void showTodaysexpense() {
         RecyclerView dailyExpenseRecycler;
         TextView emptyView;
@@ -1179,8 +1196,77 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //-----------------------------------Todays Expense Recycler-------------------
+    //-----------------------------------Investment Month Recycler-------------------
+    public MainActivity.ExpenseData[] getCurrentMonthInvestment() {
+        SQLiteDatabase mydatabase = openOrCreateDatabase("expenseDB", MODE_PRIVATE, null);
+        final String TABLE_NAME = "Records";
+        //String selectQuery = "SELECT  * FROM " + TABLE_NAME+" where Date(Created)=Date('now')";
+        String selectQuery = "SELECT  Created,ExpenseName,Catagory,Expense,Ignored,Detail,Investment,Lend,Loan FROM " + TABLE_NAME + " WHERE strftime('%m %Y',created) = strftime('%m %Y',Date('now','localtime')) AND ignored=0 AND Investment=1 ORDER BY date(Created) DESC";
 
+        Cursor cursor = mydatabase.rawQuery(selectQuery, null);
+        MainActivity.ExpenseData[] dailyexpenses = new MainActivity.ExpenseData[cursor.getCount()];
+        int i = 0;
+        if (cursor.moveToFirst()) {
+            do {
+                dailyexpenses[i] = new MainActivity.ExpenseData(cursor.getString(1), cursor.getString(2), cursor.getInt(3), cursor.getString(0), cursor.getInt(4), cursor.getString(5),cursor.getInt(6),cursor.getInt(7),cursor.getInt(8));
+                i++;
+
+
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return dailyexpenses;
+    }
+    public void showInvetsmentOfCurrentMonth() {
+        RecyclerView dailyExpenseRecycler;
+        TextView emptyView;
+        List<ListItem_dailyExpense> DailyListItems;
+        RecyclerView.Adapter dailyExpenseAdapter;
+        dailyExpenseRecycler = findViewById(R.id.investmentRecycler);
+        emptyView =findViewById(R.id.empty_view_investment);
+        dailyExpenseRecycler.setBackgroundColor(Color.BLACK);
+        dailyExpenseRecycler.setHasFixedSize(true);
+        dailyExpenseRecycler.setLayoutManager(new LinearLayoutManager(this));
+        MainActivity.ExpenseData[] dailyExpenses;
+
+        dailyExpenses = getCurrentMonthInvestment();
+
+        if (dailyExpenses.length==0) {
+            dailyExpenseRecycler.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
+        }
+        else {
+            dailyExpenseRecycler.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
+        }
+
+        DailyListItems = new ArrayList<>();
+
+
+        for (int i = 0; i < dailyExpenses.length; i++) {
+            Log.e(String.valueOf(i), dailyExpenses[i].created + " " + dailyExpenses[i].expenseName + " " + dailyExpenses[i].catagory + " " + dailyExpenses[i].expense);
+            ListItem_dailyExpense item = new ListItem_dailyExpense(
+                    dailyExpenses[i].created,
+                    dailyExpenses[i].expense,
+                    dailyExpenses[i].expenseName,
+                    dailyExpenses[i].catagory,
+                    dailyExpenses[i].ignored,
+                    dailyExpenses[i].detail,
+                    dailyExpenses[i].investment,
+                    dailyExpenses[i].lend,
+                    dailyExpenses[i].loan
+            );
+            DailyListItems.add(item);
+        }
+        LinearLayoutManager layoutManager=new LinearLayoutManager(MainActivity.this,LinearLayoutManager.HORIZONTAL,false);
+
+
+        dailyExpenseAdapter = new adapter_horizontalDailyExpense(DailyListItems, this);
+        dailyExpenseRecycler.setLayoutManager(layoutManager);
+        dailyExpenseRecycler.setItemAnimator(new DefaultItemAnimator());
+        dailyExpenseRecycler.setAdapter(dailyExpenseAdapter);
+
+    }
 
 
 

@@ -5,22 +5,50 @@
     android:layout_width="match_parent"
     android:background="#FFF"
     android:layout_height="match_parent">
-    <com.google.android.material.card.MaterialCardView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        app:cardElevation="20dp"
-        android:background="@color/cardview_light_background"
-        android:foreground="@color/cardview_light_background"
-        app:cardBackgroundColor="@color/cardview_light_background"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:clickable="true">
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/ignoredExpenseRecycler"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="5dp"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <com.google.android.material.card.MaterialCardView
 
-        android:background="#FFF" />
-    </com.google.android.material.card.MaterialCardView>
+                android:layout_width="match_parent"
+                app:cardElevation="20dp"
+                android:background="@color/cardview_light_background"
+                android:foreground="@color/cardview_light_background"
+                app:cardBackgroundColor="@color/cardview_light_background"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:clickable="true">
+                <com.github.mikephil.charting.charts.PieChart
+                    android:layout_height="350dp"
+                    android:layout_width="match_parent"
+                    android:layout_margin="15dp"
+
+                    android:background="#FFF"
+                    android:id="@+id/monthlyinvestmentpiechart" />
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+
+                android:layout_width="match_parent"
+                app:cardElevation="20dp"
+                android:background="@color/cardview_light_background"
+                android:foreground="@color/cardview_light_background"
+                app:cardBackgroundColor="@color/cardview_light_background"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:clickable="true">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="true"
+                    android:layout_margin="5dp"
+                    android:background="#FFF"
+                    android:id="@+id/monthlyInvestmentRecycler"/>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

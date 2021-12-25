@@ -5,10 +5,10 @@
         android:enabled="true"
         android:icon="@drawable/ic_baseline_bar_chart_24"
 
-        android:title="Monthly Sheet">@color/black</item>
+        android:title="Expense Sheet">@color/black</item>
     <item
         android:id="@+id/ignoredpage"
         android:enabled="true"
-        android:icon="@drawable/ic_baseline_cancel_24"
-        android:title="Ignored Transactions"/>
+        android:icon="@drawable/ic_baseline_timeline_24"
+        android:title="Investment Sheet"/>
 </menu>

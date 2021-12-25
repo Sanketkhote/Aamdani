@@ -292,119 +292,25 @@
                 app:cardBackgroundColor="#FFF"
                 android:foreground="@color/cardview_light_background"
                 android:layout_margin="8dp">
-                <LinearLayout
+                <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
+                    android:background="#FFF"
+                    android:layout_margin="8dp"
+                    android:backgroundTint="#FFF"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="5dp"
-                    android:orientation="horizontal">
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:cardElevation="5dp"
-                        android:clickable="true"
-                        android:layout_weight="1"
+                    android:id="@+id/investmentRecycler"/>
+                <TextView
+                    android:id="@+id/empty_view_investment"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:gravity="center"
 
-                        app:cardBackgroundColor="@color/cardview_light_background"
-                        android:layout_margin="5dp">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:orientation="vertical"
-                            >
-
-                            <ImageView
-                                android:layout_width="70dp"
-                                android:layout_height="70dp"
-                                android:paddingVertical="5dp"
-                                android:layout_gravity="center"
-
-                                android:src="@drawable/lend_money"/>
-                            <com.google.android.material.textview.MaterialTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="7dp"
-                                android:layout_gravity="center"
-                                android:textStyle="bold"
-                                android:textColor="#000"
-                                android:text= "Lend"/>
-                        </LinearLayout>
-
-                    </com.google.android.material.card.MaterialCardView>
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:cardElevation="5dp"
-                        android:clickable="true"
-                        android:layout_weight="1"
-                        app:cardBackgroundColor="@color/cardview_light_background"
-                        android:layout_margin="5dp">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:orientation="vertical"
-                            >
-
-                            <ImageView
-                                android:layout_width="70dp"
-                                android:layout_height="70dp"
-                                android:paddingVertical="5dp"
-                                android:layout_gravity="center"
-
-                                android:src="@drawable/investment"/>
-                            <com.google.android.material.textview.MaterialTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="7dp"
-                                android:layout_gravity="center"
-                                android:textStyle="bold"
-                                android:textColor="#000"
-                                android:text= "Investment"/>
-                        </LinearLayout>
-
-                    </com.google.android.material.card.MaterialCardView>
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:cardElevation="5dp"
-                        android:clickable="true"
-                        android:layout_weight="1"
-                        app:cardBackgroundColor="@color/cardview_light_background"
-                        android:layout_margin="5dp">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:orientation="vertical"
-                            >
-
-                            <ImageView
-                                android:layout_width="70dp"
-                                android:layout_height="70dp"
-                                android:paddingVertical="5dp"
-                                android:layout_gravity="center"
-
-                                android:src="@drawable/loan"/>
-                            <com.google.android.material.textview.MaterialTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="7dp"
-                                android:layout_gravity="center"
-                                android:textStyle="bold"
-                                android:textColor="#000"
-                                android:text= "Loan"/>
-                        </LinearLayout>
-
-                    </com.google.android.material.card.MaterialCardView>
-
-                </LinearLayout>
-
+                    android:layout_margin="8dp"
+                    android:textStyle="bold"
+                    android:textColor="#000"
+                    android:text="No Investment This Month" />
             </com.google.android.material.card.MaterialCardView>
+
 
 
         </LinearLayout>

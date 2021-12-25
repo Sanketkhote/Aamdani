@@ -26,6 +26,7 @@ import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.sanket.cashio.R;
 
 
@@ -157,6 +158,7 @@ public class adapter_horizontalDailyExpense extends RecyclerView.Adapter<adapter
 
         final EditText expenseNameEdit;
         final TextView detailEdit;
+        final SwitchMaterial investment;
 
 
         final Button updateButton,deleteButton;
@@ -169,6 +171,7 @@ public class adapter_horizontalDailyExpense extends RecyclerView.Adapter<adapter
 
         expenseNameEdit = update.findViewById(R.id.updateexpnsenametext);
         catagoryEdit = update.findViewById(R.id.updateexpensecatagorytext);
+        investment=update.findViewById(R.id.investment_switch_update);
 
         textClose = update.findViewById(R.id.updatetextclose);
         updateButton = update.findViewById(R.id.updateButton);
@@ -179,6 +182,9 @@ public class adapter_horizontalDailyExpense extends RecyclerView.Adapter<adapter
 
         expenseNameEdit.setText(listitem.getExpenseName());
         catagoryEdit.setText(listitem.getCatagory());
+        if(listitem.investment==1){
+            investment.setChecked(true);
+        }
         textClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -196,7 +202,11 @@ public class adapter_horizontalDailyExpense extends RecyclerView.Adapter<adapter
                 SQLiteDatabase mydatabase = context.openOrCreateDatabase("expenseDB",MODE_PRIVATE,null);
                 mydatabase.execSQL("CREATE TABLE IF NOT EXISTS Records(created DATETIME NOT NULL PRIMARY KEY,ExpenseName TEXT,Catagory TEXT,Expense INTEGER,Ignored INTEGER);");
 
-
+                if (investment.isChecked()){
+                    listitem.investment=1;
+                }else{
+                    listitem.investment=0;
+                }
                 if (expenseNameEdit.getText().toString().matches("")) {
                     expenseNameEdit.setError("Enter Expense");
                     errorFlag=true;
@@ -213,6 +223,7 @@ public class adapter_horizontalDailyExpense extends RecyclerView.Adapter<adapter
                 ContentValues contentValues = new ContentValues();
                 contentValues.put("ExpenseName", expenseNameEdit.getText().toString());
                 contentValues.put("Catagory", catagoryEdit.getText().toString());
+                contentValues.put("Investment", listitem.getInvestment());
                 insertCatagories(catagoryEdit.getText().toString());
 
                 mydatabase.update("Records", contentValues, "Created=" + "\"" + listitem.getCreated() + "\"", null);

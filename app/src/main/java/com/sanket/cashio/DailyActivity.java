@@ -31,7 +31,7 @@ public class DailyActivity extends AppCompatActivity {
         SQLiteDatabase mydatabase = openOrCreateDatabase("expenseDB",MODE_PRIVATE,null);
         final String TABLE_NAME = "Records";
         //String selectQuery = "SELECT  * FROM " + TABLE_NAME+" where Date(Created)=Date('now')";
-        String selectQuery = "SELECT  * FROM " + TABLE_NAME+" WHERE Date(Created)=Date('now') AND ignored=0 ORDER BY date(Created) DESC";
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME+" WHERE Date(Created)=Date('now') AND ignored=0 AND investment=0 ORDER BY date(Created) DESC";
 
         Cursor cursor      = mydatabase.rawQuery(selectQuery, null);
         MainActivity.ExpenseData[] dailyexpenses= new MainActivity.ExpenseData[cursor.getCount()];

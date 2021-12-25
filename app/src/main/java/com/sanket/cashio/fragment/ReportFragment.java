@@ -54,7 +54,7 @@ public class ReportFragment extends Fragment {
 
         String selectedDate=selectedYear+"-"+selectedMonth+"-01";
         SQLiteDatabase mydatabase = getActivity().openOrCreateDatabase("expenseDB", Context.MODE_PRIVATE,null);
-        String selectQuery = "SELECT Catagory,sum(Expense) FROM Records WHERE strftime('%m %Y',created) = strftime('%m %Y','"+selectedDate+"') AND ignored=0 GROUP by Catagory ORDER by Catagory;";
+        String selectQuery = "SELECT Catagory,sum(Expense) FROM Records WHERE strftime('%m %Y',created) = strftime('%m %Y','"+selectedDate+"') AND ignored=0 AND Investment=0 GROUP by Catagory ORDER by Catagory;";
 
         Cursor cursor      = mydatabase.rawQuery(selectQuery, null);
         MainActivity.Catagories[] data= new MainActivity.Catagories[cursor.getCount()];
@@ -133,7 +133,7 @@ public class ReportFragment extends Fragment {
         SQLiteDatabase mydatabase =  getActivity().openOrCreateDatabase("expenseDB",Context.MODE_PRIVATE,null);
         final String TABLE_NAME = "Records";
         //String selectQuery = "SELECT  * FROM " + TABLE_NAME+" where Date(Created)=Date('now')";
-        String selectQuery = "SELECT  * FROM " + TABLE_NAME+" WHERE strftime('%m %Y',created) = strftime('%m %Y','"+selectedDate+"') AND Ignored=0 ORDER BY date(Created) DESC";
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME+" WHERE strftime('%m %Y',created) = strftime('%m %Y','"+selectedDate+"') AND Ignored=0 AND Investment=0 ORDER BY date(Created) DESC";
 
         Cursor cursor      = mydatabase.rawQuery(selectQuery, null);
         MainActivity.ExpenseData[] dailyexpenses= new MainActivity.ExpenseData[cursor.getCount()];
