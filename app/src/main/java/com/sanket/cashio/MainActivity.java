@@ -1,8 +1,10 @@
 package com.sanket.cashio;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
@@ -30,6 +32,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -38,27 +41,25 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.github.mikephil.charting.animation.Easing;
-import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.google.android.gms.ads.AdError;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.sanket.cashio.adapter.ListItem_balance;
 import com.sanket.cashio.adapter.ListItem_dailyExpense;
-import com.sanket.cashio.adapter.adapter_balance;
-import com.sanket.cashio.adapter.adapter_dailyExpense;
 import com.sanket.cashio.adapter.adapter_horizontalDailyExpense;
 
 import java.text.DateFormat;
@@ -76,6 +77,8 @@ import java.util.regex.Pattern;
 import static com.github.mikephil.charting.utils.ColorTemplate.rgb;
 
 public class MainActivity extends AppCompatActivity {
+
+
     Dialog create, monthpopup;
     EditText catagoryEdit;
     Button addButton,  monthlyData;
@@ -86,6 +89,11 @@ public class MainActivity extends AppCompatActivity {
     TextView monthTarget, DailyTarget, Available, TotalSavedTextView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     SharedPreferences sharedpreferences;
+    private InterstitialAd mInterstitialAd;
+
+    private AlarmManager alarmMgr;
+    private PendingIntent alarmPendingIntent;
+
 
     public static class ExpenseData {
         public String expenseName, catagory;
@@ -141,6 +149,68 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.content_main);
         getSupportActionBar().hide();
 
+
+
+
+        alarmMgr = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
+        Intent alarmIntent = new Intent(this, DailyNotificationReciever.class);
+        alarmPendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_MUTABLE);
+
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 21);
+        calendar.set(Calendar.MINUTE, 0);
+        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, alarmPendingIntent);
+
+
+
+
+
+
+
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+        //add Load
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        InterstitialAd.load(this, "ca-app-pub-9433623958721181/1177405597", adRequest,
+                new InterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                        // The mInterstitialAd reference will be null until
+                        // an ad is loaded.
+                        mInterstitialAd = interstitialAd;
+                        Log.i("ads", "onAdLoaded");
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        // Handle the error
+                        Log.e("ads", loadAdError.getMessage());
+                        mInterstitialAd = null;
+                    }
+                });
+
+
+
+
+
         monthTarget = findViewById(R.id.monthlytargettext);
         DailyTarget = findViewById(R.id.dailyTargetTextview);
         Available = findViewById(R.id.availableTextview);
@@ -178,14 +248,55 @@ public class MainActivity extends AppCompatActivity {
         monthlyData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int monthlyExpense = getDBmonthlyExpense();
-                if (monthlyExpense <= 0) {
-                    Toast.makeText(MainActivity.this, "No expense in this month", Toast.LENGTH_LONG).show();
+
+                if (mInterstitialAd != null) {
+                    mInterstitialAd.show(MainActivity.this);
+                    mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback(){
+                        @Override
+                        public void onAdDismissedFullScreenContent() {
+                            // Called when fullscreen content is dismissed.
+                            Log.d("TAG", "The ad was dismissed.");
+                            int monthlyExpense = getDBmonthlyExpense();
+                            if (monthlyExpense <= 0) {
+                                Toast.makeText(MainActivity.this, "No expense in this month", Toast.LENGTH_LONG).show();
+                            } else {
+                                Intent intent = new Intent(MainActivity.this, MonthlyActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }
+
+                        @Override
+                        public void onAdFailedToShowFullScreenContent(AdError adError) {
+                            // Called when fullscreen content failed to show.
+                            Log.d("TAG", "The ad failed to show.");
+                            int monthlyExpense = getDBmonthlyExpense();
+                            if (monthlyExpense <= 0) {
+                                Toast.makeText(MainActivity.this, "No expense in this month", Toast.LENGTH_LONG).show();
+                            } else {
+                                Intent intent = new Intent(MainActivity.this, MonthlyActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }
+
+                        @Override
+                        public void onAdShowedFullScreenContent() {
+                            // Called when fullscreen content is shown.
+                            // Make sure to set your reference to null so you don't
+                            // show it a second time.
+                            mInterstitialAd = null;
+                            Log.d("TAG", "The ad was shown.");
+                        }
+                    });
                 } else {
+                    Log.d("TAG", "The interstitial ad wasn't ready yet.");
                     Intent intent = new Intent(MainActivity.this, MonthlyActivity.class);
                     startActivity(intent);
                     finish();
                 }
+
+
             }
         });
 
@@ -1267,6 +1378,9 @@ public class MainActivity extends AppCompatActivity {
         dailyExpenseRecycler.setAdapter(dailyExpenseAdapter);
 
     }
+
+
+
 
 
 

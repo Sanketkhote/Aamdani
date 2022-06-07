@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 
-import com.google.android.gms.common.internal.GmsClientEventManager;
 
 import java.text.SimpleDateFormat;
 import java.time.Duration;

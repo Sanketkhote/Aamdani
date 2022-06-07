@@ -180,7 +180,6 @@ public class adapter_dailyExpense extends RecyclerView.Adapter<adapter_dailyExpe
         detailEdit.setText(listitem.getDetails());
 
         expenseNameEdit.setText(listitem.getExpenseName());
-        catagoryEdit.setText(listitem.getCatagory());
         textClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -202,10 +201,7 @@ public class adapter_dailyExpense extends RecyclerView.Adapter<adapter_dailyExpe
                 }else{
                     listitem.investment=0;
                 }
-                if (expenseNameEdit.getText().toString().matches("")) {
-                    expenseNameEdit.setError("Enter Expense");
-                    errorFlag=true;
-                }
+
                 if (catagoryEdit.getText().toString().matches("")) {
                     catagoryEdit.setError("Enter Catagory");
                     errorFlag=true;

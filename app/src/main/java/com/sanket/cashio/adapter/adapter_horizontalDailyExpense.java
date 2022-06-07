@@ -181,7 +181,7 @@ public class adapter_horizontalDailyExpense extends RecyclerView.Adapter<adapter
         detailEdit.setText(listitem.getDetails());
 
         expenseNameEdit.setText(listitem.getExpenseName());
-        catagoryEdit.setText(listitem.getCatagory());
+
         if(listitem.investment==1){
             investment.setChecked(true);
         }
@@ -207,10 +207,7 @@ public class adapter_horizontalDailyExpense extends RecyclerView.Adapter<adapter
                 }else{
                     listitem.investment=0;
                 }
-                if (expenseNameEdit.getText().toString().matches("")) {
-                    expenseNameEdit.setError("Enter Expense");
-                    errorFlag=true;
-                }
+
                 if (catagoryEdit.getText().toString().matches("")) {
                     catagoryEdit.setError("Enter Catagory");
                     errorFlag=true;
@@ -219,6 +216,9 @@ public class adapter_horizontalDailyExpense extends RecyclerView.Adapter<adapter
                 if (errorFlag){
                     return;
                 }
+
+
+
 
                 ContentValues contentValues = new ContentValues();
                 contentValues.put("ExpenseName", expenseNameEdit.getText().toString());
